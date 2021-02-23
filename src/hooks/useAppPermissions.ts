@@ -26,7 +26,5 @@ export const useAppPermissions = () => {
     return hasStaticPermission && hasDynamicPermission;
   };
 
-  hasAppPermission(AppPermissions.todoFilter);
-
   return { hasAppPermission };
 };
