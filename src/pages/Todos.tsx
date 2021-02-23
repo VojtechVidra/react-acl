@@ -4,15 +4,12 @@ import { CreateForm } from "../components/CreateForm";
 import { TodoFilter } from "../components/TodoFilter";
 import { TodoList } from "../components/TodoList";
 import { Todo } from "../types/todo";
-import { useAppPermissions } from "../hooks/useAppPermissions";
 import { Can } from "../components/Can";
 import { initialTodos } from "../lib/initialTodos";
 
 export const Todos = () => {
   const [todos, setTodos] = useState(initialTodos);
   const [doneFilter, setDoneFilter] = useState<boolean>();
-
-  const { hasAppPermission } = useAppPermissions();
 
   const toggleTodo = (index: number) =>
     setTodos((prev) =>

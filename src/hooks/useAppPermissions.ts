@@ -1,5 +1,5 @@
 import { AppPermissions } from "../lib/AppPermissions";
-import { appPermissionsMap } from "../lib/todo-permissions";
+import { appPermissionsMap } from "../lib/app-permission-map";
 import { usePermissions } from "./usePermissions";
 
 export const useAppPermissions = () => {
