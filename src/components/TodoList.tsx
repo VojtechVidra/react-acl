@@ -20,7 +20,7 @@ export const TodoList = ({ todos, deleteTodo, toggleTodo }: Props) => {
         <div key={index}>
           <Can
             neededPermission={AppPermissions.todoUpdate}
-            accessData={{ user, todo }}
+            accessData={{ user, todo, type: AppPermissions.todoUpdate }}
           >
             <input
               type="checkbox"

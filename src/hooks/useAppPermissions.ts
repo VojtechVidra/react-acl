@@ -1,26 +1,33 @@
 import { AppPermissions } from "../lib/AppPermissions";
-import { appPermissionsMap } from "../lib/app-permission-map";
+import {
+  appPermissionsMap,
+  DynamicPermissionData,
+} from "../lib/app-permission-map";
 import { usePermissions } from "./usePermissions";
 
 export const useAppPermissions = () => {
   const { hasPermission } = usePermissions();
 
-  const hasAppPermission = (permission: AppPermissions, accessData?: any) => {
-    const neededBePermission = appPermissionsMap[permission];
+  const hasAppPermission = (
+    permission: AppPermissions,
+    accessData?: DynamicPermissionData
+  ) => {
+    const appPermission = appPermissionsMap[permission];
 
-    if (!neededBePermission) return false;
+    if (!appPermission) return false;
 
-    if (typeof neededBePermission === "string")
-      return hasPermission(neededBePermission);
+    if (typeof appPermission === "string") return hasPermission(appPermission);
 
-    const hasStaticPermission = neededBePermission.staticPermissions
-      ? neededBePermission.requiredPermissions === "anyof"
-        ? neededBePermission.staticPermissions?.some((p) => hasPermission(p))
-        : !neededBePermission.staticPermissions?.some((p) => !hasPermission(p))
+    const hasStaticPermission = appPermission.staticPermissions
+      ? appPermission.operator === "anyof"
+        ? appPermission.staticPermissions?.some((p) => hasPermission(p))
+        : appPermission.staticPermissions?.every((p) => hasPermission(p))
       : true;
 
-    const hasDynamicPermission = neededBePermission.dynamicPermission
-      ? neededBePermission.dynamicPermission(accessData)
+    const hasDynamicPermission = appPermission.dynamicPermission
+      ? accessData
+        ? appPermission.dynamicPermission(accessData)
+        : false
       : true;
 
     return hasStaticPermission && hasDynamicPermission;
